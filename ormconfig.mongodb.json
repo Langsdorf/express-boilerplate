@@ -1,0 +1,9 @@
+{
+  "type": "mongodb",
+  "database": "test",
+  "synchronize": true,
+  "logging": false,
+  "entities": ["src/modules/**/entities/*.entity.ts"],
+  "migrations": ["src/modules/**/migrations/*.ts"],
+  "subscribers": ["src/modules/**/subscribers/*.ts"]
+}
