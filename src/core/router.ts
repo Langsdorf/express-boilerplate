@@ -1,3 +1,5 @@
+import { log } from "./logging";
+import chalk from "chalk";
 import { Application, Request, Response } from "express";
 import * as fs from "fs";
 import path from "path";
@@ -15,16 +17,24 @@ const throughDirectory = (dir: string, files: string[]) => {
 const generateRoutes = (app: Application) => {
   return new Promise<void>((resolve) => {
     const modules: string[] = [];
+    log("Generating routes...");
 
     const modulesPath = path.join(__dirname, "../modules");
+
+    if (!fs.existsSync(modulesPath)) {
+      log("Modules path not found", "red");
+      return resolve();
+    }
 
     fs.readdirSync(modulesPath).forEach((file) => {
       const absolute = path.join(modulesPath, file);
       if (fs.statSync(absolute).isDirectory()) modules.push(file);
     });
 
-    console.log(
-      `${modules.length} modules found in ${modulesPath}, starting routes...`
+    log(
+      `${chalk.yellow(modules.length)} modules found in ${chalk.yellow(
+        "src/modules"
+      )}, starting routes...`
     );
 
     modules.forEach((module, index) => {
@@ -41,10 +51,10 @@ const generateRoutes = (app: Application) => {
       );
 
       if (fs.existsSync(controllerPath) && fs.existsSync(servicePath)) {
-        console.log(
-          `Loading routes from ${
+        log(
+          `Loading routes from ${chalk.yellow(
             module + controllerPath.slice(controllerPath.lastIndexOf("\\"))
-          }...`
+          )}...`
         );
 
         const Controller = require(controllerPath).default;
@@ -67,13 +77,17 @@ const generateRoutes = (app: Application) => {
             }
           );
 
-          console.log(`${route.method} ${module + route.path}`);
+          log(
+            `${chalk.blue(route.method)} ${chalk.magenta(module + route.path)}`
+          );
         });
 
-        console.log(
-          `${routes.length} route${routes.length > 1 ? "s" : ""} loaded from ${
+        log(
+          `${chalk.yellow(routes.length)} route${
+            routes.length > 1 ? "s" : ""
+          } loaded from ${chalk.yellow(
             module + controllerPath.slice(controllerPath.lastIndexOf("\\"))
-          }`
+          )}`
         );
 
         clearRoutes();
