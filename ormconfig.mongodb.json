@@ -3,7 +3,7 @@
   "database": "test",
   "synchronize": true,
   "logging": false,
-  "entities": ["src/modules/**/entities/*.entity.ts"],
-  "migrations": ["src/modules/**/migrations/*.ts"],
-  "subscribers": ["src/modules/**/subscribers/*.ts"]
+  "entities": ["build/modules/**/entities/*.entity.js"],
+  "migrations": ["build/modules/**/migrations/*.js"],
+  "subscribers": ["build/modules/**/subscribers/*.js"]
 }
