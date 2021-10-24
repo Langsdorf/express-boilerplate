@@ -1,6 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
-import generateRoutes from "@router";
+import generateRoutes from "./core/router";
+import { log } from "./core/logging";
+import chalk from "chalk";
 
 //@ts-ignore
 import("typeorm")
@@ -26,6 +28,10 @@ const init = async () => {
   });
 
   app.listen(process.env.PORT || 3001, () => {
-    console.log(`Server started on port ${process.env.PORT || 3001}`);
+    log(
+      `${chalk.cyan("Server started on port")} ${chalk.redBright(
+        process.env.PORT || 3001
+      )}`
+    );
   });
 };
