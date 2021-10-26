@@ -62,3 +62,21 @@ Create controller and service files inside your new folder:
 ## Decorators
 
 The list of available decorators can be found in the [decorators file](https://github.com/Langsdorf/express-boilerplate/blob/master/src/core/decorators.ts)
+
+## Code example from [status.controller.ts](https://github.com/Langsdorf/express-boilerplate/blob/master/src/modules/status/status.controller.ts)
+```ts
+import { GET, Response } from "@decorators";
+import express from "express";
+import StatusService from "./status.service";
+
+export default class UserController {
+  constructor(
+    private readonly statusService: StatusService = new StatusService()
+  ) {}
+
+  @GET() //GET method, default path = /
+  public async getStatus(@Response() res: express.Response) {
+    res.send(await this.statusService.getStatus());
+  }
+}
+```
